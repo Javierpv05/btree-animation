@@ -9,11 +9,8 @@ manim -qh scenes/bst_intro.py           BSTIntro
 manim -qh scenes/problema_bst.py        ProblemaBST
 manim -qh scenes/btree_intro.py         BTreeIntro
 manim -qh scenes/btree_propiedades.py   BTreePropiedades
-manim -qh scenes/btree_ventaja.py       BTreeVentaja
-manim -qh scenes/btree_ejemplo.py       BTreeEjemplo
-manim -qh scenes/btree_insert.py        BTreeInsert
 manim -qh scenes/btree_split.py         BTreeSplit
-manim -qh scenes/btree_delete.py        BTreeDelete
+manim -qh scenes/btree_ejemplo.py       BTreeEjemplo
 manim -qh scenes/btree_aplicaciones.py  BTreeAplicaciones
 manim -qh scenes/outro.py               Outro
 
@@ -25,11 +22,8 @@ file 'media/videos/bst_intro/1080p60/BSTIntro.mp4'
 file 'media/videos/problema_bst/1080p60/ProblemaBST.mp4'
 file 'media/videos/btree_intro/1080p60/BTreeIntro.mp4'
 file 'media/videos/btree_propiedades/1080p60/BTreePropiedades.mp4'
-file 'media/videos/btree_ventaja/1080p60/BTreeVentaja.mp4'
-file 'media/videos/btree_ejemplo/1080p60/BTreeEjemplo.mp4'
-file 'media/videos/btree_insert/1080p60/BTreeInsert.mp4'
 file 'media/videos/btree_split/1080p60/BTreeSplit.mp4'
-file 'media/videos/btree_delete/1080p60/BTreeDelete.mp4'
+file 'media/videos/btree_ejemplo/1080p60/BTreeEjemplo.mp4'
 file 'media/videos/btree_aplicaciones/1080p60/BTreeAplicaciones.mp4'
 file 'media/videos/outro/1080p60/Outro.mp4'
 EOF

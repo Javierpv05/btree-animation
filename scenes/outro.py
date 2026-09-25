@@ -1,4 +1,4 @@
-"""Escena 11: cierre."""
+# Escena 9: cierre.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

@@ -1,11 +1,4 @@
-"""
-Escena 2: ¿Qué es un BST? (versión corta)
-
-Solo introduce la idea en 15-18 segundos:
-    - BST = árbol binario con 1 clave por nodo, máx 2 hijos.
-    - Dibujo rápido de un BST balanceado.
-    - Enganche: "¿qué pasa si se desbalancea?" para la siguiente escena.
-"""
+# Escena 2: qué es un BST, versión corta.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -15,9 +8,6 @@ from utils.btree_layout import FS_TEXTO, titulo, caption
 
 class BSTIntro(Scene):
     def construct(self):
-        # ---------------------------------------------------
-        # 1. TÍTULO Y DEFINICIÓN
-        # ---------------------------------------------------
         t = titulo("Antes: el BST")
         self.play(Write(t), run_time=0.8)
 
@@ -28,9 +18,6 @@ class BSTIntro(Scene):
         self.play(FadeIn(defi, shift=UP), run_time=0.6)
         self.wait(0.8)
 
-        # ---------------------------------------------------
-        # 2. DIBUJO DEL BST
-        # ---------------------------------------------------
         pos = {
             50: (0, 0.7),
             30: (-1.5, -0.3),
@@ -63,9 +50,6 @@ class BSTIntro(Scene):
         )
         self.wait(0.8)
 
-        # ---------------------------------------------------
-        # 3. ENGANCHE PARA LA SIGUIENTE ESCENA
-        # ---------------------------------------------------
         gancho = caption("¿Qué pasa si se desbalancea?")
         self.play(Write(gancho), run_time=0.8)
         self.wait(1.2)

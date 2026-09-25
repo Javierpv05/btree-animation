@@ -1,4 +1,4 @@
-"""Escena 2: el problema del BST (solo tabla de complejidades)."""
+# Escena 3: problema del BST con tabla de complejidades.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -21,9 +21,6 @@ class ProblemaBST(Scene):
         self.play(FadeIn(intro, shift=UP), run_time=0.6)
         self.wait(0.8)
 
-        # ---------------------------------------------------
-        # Tabla con columnas alineadas
-        # ---------------------------------------------------
         COL_XS = [-4.0, -1.0, 2.0]
         headers, filas = tabla_columnas(
             columnas_x=COL_XS,

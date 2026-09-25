@@ -1,4 +1,4 @@
-"""Escena 10: aplicaciones reales."""
+# Escena 8: por qué importa (RAM vs disco) y aplicaciones reales.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -8,8 +8,24 @@ from utils.btree_layout import FS_TEXTO, titulo, caption
 
 class BTreeAplicaciones(Scene):
     def construct(self):
-        t = titulo("Aplicaciones reales")
+        t = titulo("¿Por qué importa el B-Tree?")
         self.play(Write(t), run_time=0.8)
+
+        ram = Rectangle(width=4, height=1.0, color=BLUE, stroke_width=2).move_to([-3.5, 0.8, 0])
+        ram_txt = Text("RAM  ~100 ns", font_size=22, color=BLUE).move_to(ram)
+        disco = Rectangle(width=4, height=1.0, color=RED, stroke_width=2).move_to([-3.5, -0.7, 0])
+        disco_txt = Text("Disco  ~10 ms", font_size=22, color=RED).move_to(disco)
+        factor = Text("~100,000× más lento", font_size=22, color=YELLOW).move_to([3.0, 0, 0])
+
+        self.play(FadeIn(ram), FadeIn(ram_txt), run_time=0.5)
+        self.play(FadeIn(disco), FadeIn(disco_txt), run_time=0.5)
+        self.play(FadeIn(factor, shift=LEFT), run_time=0.5)
+        self.wait(2)
+
+        self.play(FadeOut(VGroup(t, ram, ram_txt, disco, disco_txt, factor)))
+
+        t2 = titulo("Aplicaciones reales")
+        self.play(Write(t2), run_time=0.8)
 
         apps = [
             ("Bases de datos",       "MySQL, PostgreSQL, SQLite usan B+Trees."),
@@ -35,4 +51,4 @@ class BTreeAplicaciones(Scene):
         self.play(Write(cierre), run_time=0.8)
         self.wait(2)
 
-        self.play(FadeOut(VGroup(t, grupo, cierre)))
+        self.play(FadeOut(VGroup(t2, grupo, cierre)))

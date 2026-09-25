@@ -1,1 +1,1 @@
-"""Cada archivo define una escena de Manim. Orden narrativo: ver render.sh."""
+# Escenas del proyecto B-Tree. Orden narrativo: ver render.sh.

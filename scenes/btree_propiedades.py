@@ -1,4 +1,4 @@
-"""Escena 5: propiedades, reglas por tipo de nodo y complejidades."""
+# Escena 5: propiedades, reglas por tipo de nodo y complejidades.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -16,7 +16,6 @@ class BTreePropiedades(Scene):
         self.p3_balance()
         self.p4_complejidad()
 
-    # --------------------------------------------------------
     def p1_grado(self):
         t = titulo("Propiedades del B-Tree")
         self.play(Write(t), run_time=0.8)
@@ -36,7 +35,6 @@ class BTreePropiedades(Scene):
         self.wait(2)
         self.play(FadeOut(VGroup(t, grado, rel)))
 
-    # --------------------------------------------------------
     def p2_reglas(self):
         t = titulo("Reglas por tipo de nodo")
         self.play(Write(t), run_time=0.8)
@@ -75,7 +73,6 @@ class BTreePropiedades(Scene):
         self.wait(2)
         self.play(FadeOut(VGroup(t, headers, linea, filas, ej)))
 
-    # --------------------------------------------------------
     def p3_balance(self):
         t = titulo("Balance garantizado")
         self.play(Write(t), run_time=0.8)
@@ -121,7 +118,6 @@ class BTreePropiedades(Scene):
         self.play(FadeOut(VGroup(t, raiz, internos, hojas, lineas,
                                   linea_nivel, lbl, msg)))
 
-    # --------------------------------------------------------
     def p4_complejidad(self):
         t = titulo("Complejidades")
         self.play(Write(t), run_time=0.8)

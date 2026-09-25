@@ -1,4 +1,4 @@
-"""Escena 3: qué es un B-Tree y cómo se diferencia del BST."""
+# Escena 4: qué es un B-Tree y comparación con el BST.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -17,7 +17,6 @@ class BTreeIntro(Scene):
         ).move_to([0, 2, 0])
         self.play(FadeIn(defi, shift=UP), run_time=0.8)
 
-        # Nodo ejemplo
         nodo = make_node([20, 40, 60], color=YELLOW).move_to([0, 0.3, 0])
         self.play(FadeIn(nodo, shift=DOWN), run_time=0.8)
 
@@ -41,11 +40,9 @@ class BTreeIntro(Scene):
 
         self.play(FadeOut(VGroup(t, defi, nodo, etiq, msg)))
 
-        # Comparación BST vs B-Tree
         ct = titulo("BST  vs  B-Tree")
         self.play(Write(ct), run_time=0.8)
 
-        # BST
         bst_lbl = Text("BST", font_size=26, color=BLUE).move_to([-4, 1.6, 0])
         bst_nodos = VGroup()
         for i, (dx, dy) in enumerate([(0, 1), (-1, 0), (1, 0)]):
@@ -57,7 +54,6 @@ class BTreeIntro(Scene):
             Line(bst_nodos[0].get_bottom(), bst_nodos[2].get_top(), color=BLUE, stroke_width=2),
         )
 
-        # B-Tree
         bt_lbl = Text("B-Tree", font_size=26, color=GREEN).move_to([4, 1.6, 0])
         bt_nodo = make_node([20, 50], color=GREEN).move_to([4, 1, 0])
         bt_hijos = VGroup()
