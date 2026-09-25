@@ -1,0 +1,1 @@
+"""Cada archivo define una escena de Manim. Orden narrativo: ver render.sh."""

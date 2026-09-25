@@ -1,0 +1,33 @@
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Configuración de editores
+.vscode/
+.idea/
+*.swp
+
+# Salida de Manim
+media/
+**/media/
+
+# Cachés de Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribuciones / empaquetado
+build/
+dist/
+*.egg-info/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales
+*.tmp
+*.log
