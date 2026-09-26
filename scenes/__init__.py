@@ -1,0 +1,1 @@
+# Escenas del proyecto B-Tree. Orden narrativo: ver render.sh.
