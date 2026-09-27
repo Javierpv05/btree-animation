@@ -1,4 +1,5 @@
 # Escena 8: por qué importa (RAM vs disco) y aplicaciones reales.
+# Muestra la jerarquía de memoria y dónde se usan los B-Trees.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

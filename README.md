@@ -1,7 +1,7 @@
-<h1 align="center"> B-Trees Animados con Manim</h1>
+<h1 align="center">🌳 B-Trees Animados con Manim</h1>
 
 <p align="center">
-  <b>Proyecto 1 </b><br>
+  <b>Proyecto 1 — CS2023 Algoritmos y Estructuras de Datos</b><br>
   Animación educativa del algoritmo <b>B-Tree</b> usando <a href="https://www.manim.community/">Manim Community</a>
 </p>
 
@@ -13,19 +13,21 @@
 
 ---
 
-## ¿Que es este proyecto ? 
+##  Consistencia del proyecto
 
 Una animación educativa que explica el **B-Tree** paso a paso:
-- Por qué existe (y qué problema resuelve frente a un BST).
+
+- Por qué existe y qué problema resuelve frente a un BST.
 - Sus propiedades y reglas con grado `m`.
 - Cómo funciona la **inserción**, **eliminación**, **split** y **búsqueda**.
 - Dónde se usa en el mundo real (bases de datos, filesystems, etc.).
 
-El video final dura **~3 minutos** y está renderizado en **1080p60**.
+El video final está renderizado en **1080p60**.
 
 ---
 
-## 📂 Estructura del proyecto
+##  Estructura del proyecto
+
 
 ```
 btree-animation/
@@ -112,9 +114,6 @@ pip install -r requirements.txt
 ```
 
 
-
-Debe terminar con: **`✅ Todos los tests pasaron.`**
-
 ---
 
 ## Cómo renderizar el video
@@ -151,17 +150,6 @@ ffmpeg -i video_final.mp4 -c:v mpeg2video -qscale:v 2 -c:a mp2 video_final.mpg
 ```
 
 
-## Tests del algoritmo
-
-El archivo `test_btree.py` valida que el algoritmo respeta los invariantes del B-Tree:
-- Claves ordenadas en cada nodo.
-- Cantidad de claves dentro del rango `[⌈m/2⌉ − 1, m − 1]`.
-- Cantidad de hijos = cantidad de claves + 1.
-- Todas las hojas a la misma profundidad.
-
-```bash
-python test_btree.py
-```
 
 ---
 
@@ -189,9 +177,6 @@ python test_btree.py
 | Ernesto Sullca Toledo |
 | Paolo Ruiz Soto |
 
-**Curso:** Algoritmos y Estructuras de Datos  
-**Fecha:** Septiembre 2026
-
 ---
 
 ##  Referencias
@@ -203,4 +188,4 @@ python test_btree.py
 
 ---
 
-<p align="center"><i>Hecho con 🐍 Python y 🎬 Manim</i></p>
+<p align="center"><i>Hecho con  Python y  Manim</i></p>

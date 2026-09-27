@@ -1,133 +1,136 @@
-# Escena 6: split en inserción y merge en eliminación.
+# Escena 6: split en inserción (izquierda) y merge en eliminación (derecha).
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from manim import *
-from utils.btree_layout import titulo, caption, make_node, switch_caption
+from utils.btree_layout import (
+    titulo, caption, make_node, switch_caption,
+)
+
+
+CENTRO_IZQ = -3.5
+CENTRO_DER =  3.5
 
 
 class BTreeSplit(Scene):
     def construct(self):
-        t = titulo("Split y Merge")
+        t = titulo("Split  vs  Merge")
         self.play(Write(t), run_time=0.8)
         self.wait(0.3)
 
-        n = make_node([10, 20], color=GREEN).move_to([0, 0.8, 0])
-        self.play(FadeIn(n), run_time=0.5)
+        divider = DashedLine(
+            [0, 2.4, 0], [0, -2.5, 0],
+            color=GREY_B, stroke_width=2,
+        )
+        self.play(Create(divider), run_time=0.5)
 
-        cap = caption("Nodo lleno: [10, 20]  (máximo 2 claves para m = 3).")
+        izq_lbl = Text("Split (inserción)", font_size=24, color=GREEN
+                      ).move_to([CENTRO_IZQ, 1.9, 0])
+        der_lbl = Text("Merge (eliminación)", font_size=24, color=RED
+                      ).move_to([CENTRO_DER, 1.9, 0])
+        self.play(Write(izq_lbl), Write(der_lbl), run_time=0.6)
+        self.wait(0.4)
+
+        cap = caption("Ambos lados: un nodo lleno [10, 20].")
         self.play(FadeIn(cap, shift=UP), run_time=0.5)
+
+        n_izq = make_node([10, 20], color=GREEN).move_to([CENTRO_IZQ, 0.4, 0])
+        n_der = make_node([10, 20], color=GREEN).move_to([CENTRO_DER, 0.4, 0])
+
+        self.play(FadeIn(n_izq), FadeIn(n_der), run_time=0.8)
         self.wait(1.5)
 
-        new_cap = caption("Insertar 30  →  el nodo se desborda.")
+        new_cap = caption("Izquierda: insertar 30  →  overflow.")
         self.play(*switch_caption(cap, new_cap), run_time=0.5)
         cap = new_cap
 
-        n_over = make_node([10, 20, 30], color=RED).move_to([0, 0.8, 0])
-        self.play(Transform(n, n_over), run_time=0.7)
-        self.wait(1.2)
+        n_izq_over = make_node([10, 20, 30], color=RED).move_to([CENTRO_IZQ, 0.4, 0])
+        self.play(Transform(n_izq, n_izq_over), run_time=0.7)
+        self.play(Indicate(n_izq, color=RED, scale_factor=1.08), run_time=0.6)
+        self.wait(1.0)
 
-        new_cap = caption("Split: sube 20 al padre y el nodo se divide.")
+        new_cap = caption("Split: la clave media 20 sube al padre.")
         self.play(*switch_caption(cap, new_cap), run_time=0.5)
         cap = new_cap
 
-        self.play(FadeOut(n), run_time=0.4)
+        self.play(FadeOut(n_izq), run_time=0.5)
         self.wait(0.3)
 
-        root = make_node([20], color=GREEN).move_to([0, 1.6, 0])
-        izq = make_node([10], color=GREEN).move_to([-1.6, -0.2, 0])
-        der = make_node([30], color=GREEN).move_to([1.6, -0.2, 0])
+        raiz_izq = make_node([20], color=YELLOW).move_to([CENTRO_IZQ, 1.4, 0])
+        izq1 = make_node([10], color=GREEN).move_to([CENTRO_IZQ - 1.1, -0.2, 0])
+        izq2 = make_node([30], color=GREEN).move_to([CENTRO_IZQ + 1.1, -0.2, 0])
 
-        def _line(p, c):
-            return Line(p.get_bottom(), c.get_top(), color=GREEN, stroke_width=2)
+        def _line(p, c, color=GREEN):
+            return Line(p.get_bottom(), c.get_top(), color=color, stroke_width=2)
 
-        l1 = _line(root, izq)
-        l2 = _line(root, der)
+        l1 = _line(raiz_izq, izq1, color=YELLOW)
+        l2 = _line(raiz_izq, izq2, color=YELLOW)
 
         self.play(
-            FadeIn(root), FadeIn(izq), FadeIn(der),
+            FadeIn(raiz_izq), FadeIn(izq1), FadeIn(izq2),
             Create(l1), Create(l2),
-            run_time=1,
+            run_time=1.0,
         )
+        self.play(Indicate(raiz_izq, color=YELLOW, scale_factor=1.1), run_time=0.7)
         self.wait(1.5)
 
-        new_cap = caption("Insertar 5  →  baja a la hoja [10].")
+        self.play(raiz_izq[0].animate.set_color(GREEN), run_time=0.3)
+
+        new_cap = caption("Derecha: mismo árbol, ahora con 3 claves en las hojas.")
         self.play(*switch_caption(cap, new_cap), run_time=0.5)
         cap = new_cap
 
-        izq_v2 = make_node([5, 10], color=GREEN).move_to([-1.6, -0.2, 0])
-        l1_v2 = _line(root, izq_v2)
-
-        self.play(
-            FadeOut(izq), FadeOut(l1),
-            FadeIn(izq_v2), Create(l1_v2),
-            run_time=0.8,
-        )
-        izq = izq_v2
-        l1 = l1_v2
-        self.wait(1.2)
-
-        new_cap = caption("Insertar 15  →  la hoja se desborda.")
-        self.play(*switch_caption(cap, new_cap), run_time=0.5)
-        cap = new_cap
-
-        izq_over = make_node([5, 10, 15], color=RED).move_to([-1.6, -0.2, 0])
-        self.play(Transform(izq, izq_over), run_time=0.7)
-        self.wait(1.2)
-
-        new_cap = caption("Split: 10 sube al padre  →  raíz [10, 20].")
-        self.play(*switch_caption(cap, new_cap), run_time=0.5)
-        cap = new_cap
-
-        self.play(FadeOut(izq), run_time=0.4)
+        self.play(FadeOut(n_der), run_time=0.4)
         self.wait(0.3)
 
-        root_new = make_node([10, 20], color=GREEN).move_to([0, 1.6, 0])
-        h1 = make_node([5], color=GREEN).move_to([-2.6, -0.2, 0])
-        h2 = make_node([15], color=GREEN).move_to([0.0, -0.2, 0])
-        h3 = make_node([30], color=GREEN).move_to([2.6, -0.2, 0])
+        raiz_der = make_node([20], color=GREEN).move_to([CENTRO_DER, 1.4, 0])
+        der1 = make_node([10], color=GREEN).move_to([CENTRO_DER - 1.1, -0.2, 0])
+        der2 = make_node([30], color=GREEN).move_to([CENTRO_DER + 1.1, -0.2, 0])
 
-        lin_new = VGroup(
-            _line(root_new, h1),
-            _line(root_new, h2),
-            _line(root_new, h3),
-        )
+        l3 = _line(raiz_der, der1)
+        l4 = _line(raiz_der, der2)
 
         self.play(
-            FadeOut(VGroup(root, l1, l2)),
-            FadeIn(root_new),
-            FadeIn(h1), FadeIn(h2), FadeIn(h3),
-            LaggedStart(*[Create(l) for l in lin_new], lag_ratio=0.2),
-            run_time=1.2,
+            FadeIn(raiz_der), FadeIn(der1), FadeIn(der2),
+            Create(l3), Create(l4),
+            run_time=1.0,
         )
         self.wait(1.5)
 
-        new_cap = caption("Eliminar 30  →  la hoja queda vacía, merge con el padre.")
+        new_cap = caption("Eliminar 30  →  la hoja queda vacía (underflow).")
         self.play(*switch_caption(cap, new_cap), run_time=0.5)
         cap = new_cap
 
-        self.play(h3[0].animate.set_color(RED), run_time=0.4)
-        self.wait(0.8)
+        self.play(der2[0].animate.set_color(RED), run_time=0.4)
+        self.play(Indicate(der2, color=RED, scale_factor=1.1), run_time=0.6)
+        self.wait(0.6)
 
-        root_fin = make_node([10], color=GREEN).move_to([0, 1.6, 0])
-        h1_fin = make_node([5], color=GREEN).move_to([-1.6, -0.2, 0])
-        h2_fin = make_node([15, 20], color=GREEN).move_to([1.6, -0.2, 0])
+        self.play(FadeOut(der2), FadeOut(l4), run_time=0.5)
+        self.wait(0.6)
 
-        lin_fin = VGroup(
-            _line(root_fin, h1_fin),
-            _line(root_fin, h2_fin),
-        )
+        new_cap = caption("Merge: 20 baja del padre y se une a [10].")
+        self.play(*switch_caption(cap, new_cap), run_time=0.5)
+        cap = new_cap
+
+        nodo_fusionado = make_node([10, 20], color=GREEN).move_to([CENTRO_DER, 0.4, 0])
 
         self.play(
-            FadeOut(VGroup(root_new, h1, h2, h3, lin_new)),
-            FadeIn(root_fin), FadeIn(h1_fin), FadeIn(h2_fin),
-            LaggedStart(*[Create(l) for l in lin_fin], lag_ratio=0.3),
+            FadeOut(raiz_der), FadeOut(der1), FadeOut(l3),
+            FadeIn(nodo_fusionado, scale=0.9),
             run_time=1.2,
         )
         self.wait(1.5)
 
-        cierre = caption("Resultado: raíz [10], hijos [5] y [15, 20].")
-        self.play(*switch_caption(cap, cierre), run_time=0.6)
+        new_cap = caption("La raíz queda vacía  →  baja un nivel.")
+        self.play(*switch_caption(cap, new_cap), run_time=0.5)
+        cap = new_cap
+
+        self.play(nodo_fusionado.animate.move_to([CENTRO_DER, 0.4, 0]),
+                  run_time=0.5)
+        self.wait(1.2)
+
+        new_cap = caption("Split hace crecer el árbol hacia arriba.  Merge lo contrae.")
+        self.play(*switch_caption(cap, new_cap), run_time=0.6)
         self.wait(2.5)
 
         self.play(*[FadeOut(m) for m in self.mobjects], run_time=0.8)

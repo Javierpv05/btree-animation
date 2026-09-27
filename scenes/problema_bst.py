@@ -1,4 +1,4 @@
-# Escena 3: problema del BST con tabla de complejidades.
+# Escena 3: problema del BST con tabla de complejidades..
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

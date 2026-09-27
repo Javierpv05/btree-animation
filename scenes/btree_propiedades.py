@@ -1,4 +1,5 @@
 # Escena 5: propiedades, reglas por tipo de nodo y complejidades.
+# explicamos el grado m, las fórmulas con ⌈m/2⌉ y las tablas comparativas.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

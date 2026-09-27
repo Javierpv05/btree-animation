@@ -1,4 +1,5 @@
 # Escena 1: título, autores y curso.
+# Presenta el nombre del proyecto, los integrantes y la institución.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -11,7 +12,7 @@ CURSO           = "CS2023 — Algoritmos y Estructuras de Datos"
 INTEGRANTES     = [
     "Javier Pariansullca Ventura",
     "Ernesto Sullca Toledo",
-    "Paolo Ruiz Soto",
+    "Paolo Soto Ruiz",
 ]
 FECHA           = "Septiembre 2026"
 UNIVERSIDAD     = "UTEC"
@@ -19,7 +20,6 @@ UNIVERSIDAD     = "UTEC"
 
 class Intro(Scene):
     def construct(self):
-
         titulo = Text(TITULO_PROYECTO, font_size=96, color=GREEN, weight=BOLD)
 
         linea = Line(
@@ -39,12 +39,11 @@ class Intro(Scene):
         bloque = VGroup(titulo, linea, sub, nombres)
         bloque.move_to([0, 0.5, 0])
 
-
         pie = Text(
             f"{UNIVERSIDAD}  ·  {FECHA}",
             font_size=FS_ETIQUETA,
             color=GREY_B,
-        ).move_to([0, Y_CAPTION + 0.3, 0])   
+        ).move_to([0, Y_CAPTION + 0.3, 0])
 
         self.play(Write(titulo), run_time=1)
         self.play(Create(linea), run_time=0.4)

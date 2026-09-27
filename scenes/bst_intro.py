@@ -1,9 +1,10 @@
-# Escena 2: qué es un BST, versión corta.
+# Escena 2: qué es un BST y su problema de desbalanceo.
+# Muestra un BST balanceado, el gancho y la respuesta directa.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from manim import *
-from utils.btree_layout import FS_TEXTO, titulo, caption
+from utils.btree_layout import FS_TEXTO, titulo, caption, switch_caption
 
 
 class BSTIntro(Scene):
@@ -48,10 +49,15 @@ class BSTIntro(Scene):
             LaggedStart(*[Create(l) for l in lineas], lag_ratio=0.06),
             run_time=1.2,
         )
-        self.wait(0.8)
+        self.wait(0.5)
 
         gancho = caption("¿Qué pasa si se desbalancea?")
         self.play(Write(gancho), run_time=0.8)
         self.wait(1.2)
 
-        self.play(FadeOut(VGroup(t, defi, *nodos.values(), lineas, gancho)))
+        respuesta = caption("La altura crece a n  →  buscar vuelve a ser O(n).",
+                            color=RED)
+        self.play(*switch_caption(gancho, respuesta), run_time=0.6)
+        self.wait(2.0)
+
+        self.play(FadeOut(VGroup(t, defi, *nodos.values(), lineas, respuesta)))

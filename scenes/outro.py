@@ -1,4 +1,5 @@
-# Escena 9: cierre.
+# Escena 9: cierre del video.
+# Muestra "Gracias" con el nombre del curso.
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

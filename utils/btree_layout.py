@@ -1,12 +1,8 @@
-"""
-Constantes de layout y helpers reutilizables para las escenas.
-"""
+# Constantes de layout y helpers gráficos para todas las escenas.
+# Incluye make_node, caption, titulo, tablas y conversión Node → VGroup.
 from manim import *
 
 
-# ============================================================
-# ZONAS VERTICALES
-# ============================================================
 Y_TITULO        =  3.4
 Y_SUBTITULO     =  2.7
 Y_CONTENIDO_TOP =  2.0
@@ -28,9 +24,6 @@ FS_CLAVE     = 22
 FS_ETIQUETA  = 18
 
 
-# ============================================================
-# HELPERS BÁSICOS
-# ============================================================
 def make_node(keys, color=GREEN):
     cajas = VGroup(*[
         Rectangle(width=KEY_W, height=KEY_H, color=color, stroke_width=2)
@@ -63,26 +56,18 @@ def unhighlight(node, color=GREEN):
     return node[0].animate.set_color(color).set_fill(color, opacity=0)
 
 
-# ============================================================
-# REEMPLAZO DE CAPTIONS SIN SUPERPONER
-# ============================================================
 def switch_caption(old_cap, new_cap):
-    """Crossfade limpio entre captions (nunca usar Transform en textos)."""
     return [
         FadeOut(old_cap, shift=UP * 0.15),
         FadeIn(new_cap, shift=DOWN * 0.15),
     ]
 
 
-# ============================================================
-# TABLAS ALINEADAS
-# ============================================================
 def tabla_columnas(columnas_x, headers, filas,
                    y_header=1.2, y_inicio=0.6, dy=0.6,
                    fs_header=22, fs_fila=20,
                    color_header=YELLOW,
                    colores_fila=None):
-    """Construye tabla con columnas alineadas (x fijo por columna)."""
     header_group = VGroup()
     for x, txt in zip(columnas_x, headers):
         header_group.add(
@@ -110,14 +95,10 @@ def linea_tabla(y, ancho=7, color=GREY):
     return Line([-ancho, y, 0], [ancho, y, 0], color=color, stroke_width=2)
 
 
-# ============================================================
-# CONVERSIÓN Node -> VGroup (con marca de RUTA y DESTINO)
-# ============================================================
 from utils.btree import Node  # noqa: E402
 
 
 def compute_positions(root: Node, x_spacing=1.9, y_spacing=1.4, y_top=2.2):
-    """Asigna (x, y) a cada nodo. Hojas de izq a der; internos centrados."""
     positions = {}
     leaf_counter = [0]
 
@@ -147,24 +128,13 @@ def tree_to_vgroup(
     root: Node,
     highlight_path=None,
     normal_color=GREEN,
-    path_color=YELLOW,          # nodos internos de la ruta (solo borde)
-    target_color=ORANGE,        # nodo destino (borde + relleno suave)
-    path_edge_color=YELLOW,     # aristas recorridas
+    path_color=YELLOW,
+    target_color=ORANGE,
+    path_edge_color=YELLOW,
     path_edge_width=5,
     normal_edge_width=2,
     path_stroke_width=4,
 ):
-    """
-    Convierte un árbol en un VGroup marcando la RUTA.
-
-    - highlight_path = None → sin resaltado.
-    - highlight_path = []   → resalta solo la raíz.
-    - highlight_path = [i1, i2, ...] → resalta la ruta completa; el último
-      nodo (destino) se pinta de naranja con relleno suave; los demás
-      nodos de la ruta llevan solo el borde amarillo y trazo grueso
-      (sin relleno, para no confundirse con nodos vecinos).
-    """
-    # Distinguir "None" (sin resaltado) de "[]" (raíz resaltada)
     if highlight_path is None:
         highlight_path = []
         sin_resaltado = True
@@ -173,7 +143,6 @@ def tree_to_vgroup(
 
     positions = compute_positions(root)
 
-    # Localizar todos los nodos de la ruta
     if sin_resaltado:
         path_set = set()
         target_id = None
@@ -187,7 +156,6 @@ def tree_to_vgroup(
         target_id = path_ids[-1]
         path_set = set(path_ids)
 
-    # Aristas de la ruta
     path_edges = set()
     if not sin_resaltado:
         cursor = root
@@ -196,7 +164,6 @@ def tree_to_vgroup(
                 path_edges.add((id(cursor), idx))
                 cursor = cursor.children[idx]
 
-    # Construir nodos
     node_mobs = {}
 
     def build(node):
@@ -207,7 +174,6 @@ def tree_to_vgroup(
             mob[0].set_stroke(width=path_stroke_width)
             mob[0].set_fill(target_color, opacity=0.25)
         elif id(node) in path_set:
-            # Solo borde amarillo + trazo grueso, SIN relleno
             mob = make_node(node.keys, color=path_color)
             mob[0].set_stroke(width=path_stroke_width)
         else:
@@ -219,15 +185,32 @@ def tree_to_vgroup(
 
     build(root)
 
-    # Construir aristas
     lines = VGroup()
 
+    def _start_points(node):
+        n_keys = len(node.keys)
+        n_hijos = len(node.children)
+        x_center, y_center = positions[id(node)]
+
+        if n_keys == 0:
+            y_bottom = y_center - KEY_H / 2
+            return [[x_center, y_bottom, 0]] * n_hijos
+
+        y_bottom = y_center - KEY_H / 2
+        x_left = x_center - (n_keys * KEY_W) / 2
+
+        return [
+            [x_left + i * KEY_W, y_bottom, 0]
+            for i in range(n_hijos)
+        ]
+
     def add_lines(node):
+        starts = _start_points(node)
         for i, child in enumerate(node.children):
             on_path = (id(node), i) in path_edges
             lines.add(Line(
-                node_mobs[id(node)].get_bottom(),
-                node_mobs[id(child)].get_top(),
+                start=starts[i],
+                end=node_mobs[id(child)].get_top(),
                 color=path_edge_color if on_path else normal_color,
                 stroke_width=path_edge_width if on_path else normal_edge_width,
             ))
