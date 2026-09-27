@@ -1,4 +1,4 @@
-<h1 align="center">🌳 B-Trees Animados con Manim</h1>
+<h1 align="center"> B-Trees Animados con Manim</h1>
 
 <p align="center">
   <b>Proyecto 1 — CS2023 Algoritmos y Estructuras de Datos</b><br>
